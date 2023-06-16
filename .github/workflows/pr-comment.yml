@@ -1,0 +1,32 @@
+# Create a comment on a PR with text from a file
+# Inputs file-name
+name: PR comment
+on:
+  pull_request:
+    branches: [ develop ]
+inputs:
+  file-name:
+    description: 'The name of the file to read the comment body from'
+    required: true
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Comment PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const filePath = path.join(process.env.GITHUB_WORKSPACE, '${{ inputs.file-name }}');
+            const html = fs.readFileSync(filePath, 'utf8');
+            const commentBody = `Coverage report for PR #${context.issue.number}:\n\n${html}`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody
+            })
+```
