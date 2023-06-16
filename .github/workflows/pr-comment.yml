@@ -36,5 +36,3 @@ jobs:
       steps:
         - name: No coverage report
           run: echo "No file name provided"
-          
-

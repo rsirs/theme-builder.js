@@ -24,7 +24,3 @@ jobs:
         uses: ./pr-comment
         with:
           file-name: coverage/lcov-report/index.html
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_WORKSPACE: ${{ github.workspace }}
-```
