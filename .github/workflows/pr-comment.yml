@@ -28,5 +28,8 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: commentBody
-            })
-```
+            });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+
