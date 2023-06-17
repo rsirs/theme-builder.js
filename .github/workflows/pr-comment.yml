@@ -15,7 +15,7 @@ jobs:
         id: coverageOutput
         shell: bash
         run: |
-            output=`cat lcov-report/index.html`
+            output=$(cat lcov-report/index.html)
             echo "coverage=$output" >> $GITHUB_OUTPUT
       - name: Comment PR
         uses: actions/github-script@v6
