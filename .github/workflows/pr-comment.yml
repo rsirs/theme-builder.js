@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{inputs.file-name}}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: list files
+        working-directory: ${{ github.workspace }}
+        run: ls -la
       - name: Comment PR
         uses: actions/github-script@v6
         with:
