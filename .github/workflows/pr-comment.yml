@@ -2,18 +2,18 @@
 # Inputs file-name
 name: PR comment
 on: 
-  workflow_call: 
-  workflow_dispatch:
+  workflow_call:
     inputs:
       file-name:
-        description: 'The name of the file to read the comment body from'
+        description: 'The name of the file to read'
         required: true
+        type: string
 jobs:
   comment:
     runs-on: ubuntu-latest
     if: ${{inputs.file-name}}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Comment PR
         uses: actions/github-script@v6
         with:
