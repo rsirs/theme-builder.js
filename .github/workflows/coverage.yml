@@ -28,3 +28,4 @@ jobs:
   coverage-report-comment:
     needs: coverage
     uses: ./.github/workflows/pr-comment.yml
+    secrets: inherit
