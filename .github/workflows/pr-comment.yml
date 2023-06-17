@@ -13,6 +13,7 @@ jobs:
             name: coverage-${{ github.sha }}
       - name: Read coverage and set output
         id: coverageOutput
+        shell: bash
         run: |
             output=`cat lcov-report/index.html`
             echo "coverage=$output" >> $GITHUB_OUTPUT
