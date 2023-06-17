@@ -8,6 +8,10 @@ on:
         description: 'The name of the file to read'
         required: true
         type: string
+    secrets:
+      GITHUB_TOKEN:
+        description: 'The GitHub token for the repository'
+        required: true
 jobs:
   comment:
     runs-on: ubuntu-latest
