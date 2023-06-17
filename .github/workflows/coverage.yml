@@ -19,8 +19,8 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm run test -- --coverage
-        # Add a comment to the pr with the coverage report
-      - name: Coverage report comment
-        uses: .github/workflows/pr-comment.yml
-        with:
-          file-name: coverage/lcov-report/index.html
+  coverage-report-comment:
+    needs: coverage
+    uses: ./.github/workflows/pr-comment.yml
+    with:
+      file-name: coverage/lcov-report/index.html
