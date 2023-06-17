@@ -3,38 +3,28 @@
 name: PR comment
 on: 
     workflow_call:
-        inputs:
-            file-name:
-                description: 'The name of the file to read'
-                required: true
-                type: string
 jobs:
   comment:
     runs-on: ubuntu-latest
-    if: ${{inputs.file-name}}
     steps:
       - name: Download a single artifact
         uses: actions/download-artifact@v3
         with:
             name: coverage-${{ github.sha }}
-      - name: list files
-        working-directory: ${{ github.workspace }}
-        run: ls -la
+      - name: Read coverage and set output
+        id: coverageOutput
+        run: |
+            output=`cat lcov-report/index.html`
+            echo "coverage=$output" >> $GITHUB_OUTPUT
       - name: Comment PR
         uses: actions/github-script@v6
         with:
           script: |
-            const fs = require('fs');
-            const path = require('path');
-            const filePath = path.join('${{ inputs.file-name }}');
-            const html = fs.readFileSync(filePath, 'utf8');
-            const commentBody = `Coverage report for PR #${context.issue.number}:\n\n${html}`;
-
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: commentBody
+              body: '${{ steps.coverageOutput.outputs.coverage }}'
             });
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -28,5 +28,3 @@ jobs:
   coverage-report-comment:
     needs: coverage
     uses: ./.github/workflows/pr-comment.yml
-    with:
-      file-name: coverage/lcov-report/index.html
