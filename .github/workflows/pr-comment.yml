@@ -11,21 +11,20 @@ jobs:
         uses: actions/download-artifact@v3
         with:
             name: coverage-${{ github.sha }}
-      - name: Read coverage and set output
-        id: coverageOutput
-        shell: bash
-        run: |
-            output=$(cat lcov-report/index.html)
-            echo "coverage=$output" >> $GITHUB_OUTPUT
       - name: Comment PR
         uses: actions/github-script@v6
         with:
           script: |
+            const fs = require('fs');
+            const path = require('path');
+            const filePath = path.join(process.env.GITHUB_WORKSPACE, 'lcov-report/index.html');
+            const html = fs.readFileSync(filePath, 'utf8');
+            const commentBody = `Coverage report for PR #${context.issue.number}:\n\n${html}`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '${{ steps.coverageOutput.outputs.coverage }}'
+              body: commentBody
             });
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
