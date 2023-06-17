@@ -1,7 +1,9 @@
 # Create a comment on a PR with text from a file
 # Inputs file-name
 name: PR comment
-on: [workflow_call, workflow_dispatch]
+on: 
+  workflow_call: 
+  workflow_dispatch:
     inputs:
       file-name:
         description: 'The name of the file to read the comment body from'
@@ -9,7 +11,7 @@ on: [workflow_call, workflow_dispatch]
 jobs:
   comment:
     runs-on: ubuntu-latest
-    if: ${{inputs.file-name}}}
+    if: ${{inputs.file-name}}
     steps:
       - uses: actions/checkout@v2
       - name: Comment PR
@@ -31,7 +33,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_WORKSPACE: ${{ github.workspace }}
-    else:
-      steps:
-        - name: No coverage report
-          run: echo "No file name provided"
