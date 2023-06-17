@@ -1,7 +1,7 @@
 # Create a comment on a PR with text from a file
 # Inputs file-name
 name: PR comment
-on: [workflow_call, workflow_dispatch]:
+on: [workflow_call, workflow_dispatch]
     inputs:
       file-name:
         description: 'The name of the file to read the comment body from'
