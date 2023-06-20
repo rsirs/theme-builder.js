@@ -1,0 +1,31 @@
+name: Code coverage
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm run test -- --coverage
+      - name: Upload coverage to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-${{ github.sha }}
+          path: coverage  
+          retention-days: 1
+  coverage-report-comment:
+    needs: coverage
+    uses: ./.github/workflows/pr-comment.yml
+    secrets: inherit

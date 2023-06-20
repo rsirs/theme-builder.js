@@ -1,0 +1,38 @@
+# Create a comment on a PR with text from a file
+# Inputs file-name
+name: PR comment
+on: 
+    workflow_call:
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+            name: coverage-${{ github.sha }}
+      - name: Comment PR
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITPAI_PAT }}
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const filePath = path.join(process.env.GITHUB_WORKSPACE,  'coverage.txt');
+            const text = fs.readFileSync(filePath, 'utf8');
+            // Strip first line
+            const lines = text.split('\n');
+            lines.shift();
+            // strip last 2 line
+            lines.pop();
+            lines.pop();
+            const commentBody = `Coverage report for PR #${context.issue.number}:\n\n${lines.join('\n')}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody
+            });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
