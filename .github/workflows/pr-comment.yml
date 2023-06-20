@@ -22,7 +22,9 @@ jobs:
             const text = fs.readFileSync(filePath, 'utf8');
             // Strip first line
             const lines = text.split('\n');
-            // strip last line
+            lines.shift();
+            // strip last 2 line
+            lines.pop();
             lines.pop();
             const commentBody = `Coverage report for PR #${context.issue.number}:\n\n${lines.join('\n')}`;
             github.rest.issues.createComment({
