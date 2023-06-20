@@ -18,8 +18,8 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
-            const filePath = path.join(process.env.GITHUB_WORKSPACE, 'lcov-report/index.html');
-            const html = fs.readFileSync(filePath, 'utf8');
+            const filePath = path.join(process.env.GITHUB_WORKSPACE, 'coverage', 'coverage.txt');
+            const text = fs.readFileSync(filePath, 'utf8');
             const commentBody = `Coverage report for PR #${context.issue.number}:\n\n${html}`;
             github.rest.issues.createComment({
               issue_number: context.issue.number,

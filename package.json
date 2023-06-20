@@ -10,6 +10,9 @@
   "description": "theme builder js",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=16"
+  },
   "directories": {
     "doc": "docs"
   },

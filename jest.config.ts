@@ -36,7 +36,7 @@ export default {
   // A list of reporter names that Jest uses when writing coverage reports
   coverageReporters: [
     "json",
-    "text",
+    ["text", { file: "coverage.txt", skipFull: false }],
     "lcov",
     "clover"
   ],
@@ -108,7 +108,8 @@ export default {
   // projects: undefined,
 
   // Use this configuration option to add custom reporters to Jest
-  // reporters: undefined,
+  // reporters: ['default', './markdown-reporter/reporter.js'],
+
 
   // Automatically reset mock state before every test
   // resetMocks: false,
